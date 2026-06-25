@@ -50,7 +50,7 @@ class SearchNotifier extends StateNotifier<SearchState> {
       final List<Map<String, dynamic>> results = [];
 
       for (var doc in booksSnapshot.docs) {
-        final data = doc.data();
+        final data = Map<String, dynamic>.from(doc.data());
         final title = (data['title'] ?? '').toString().toLowerCase();
         final subject = data['subject'] is Map
             ? (data['subject']['name'] ?? '').toString().toLowerCase()
@@ -64,7 +64,7 @@ class SearchNotifier extends StateNotifier<SearchState> {
       }
 
       for (var doc in quizzesSnapshot.docs) {
-        final data = doc.data();
+        final data = Map<String, dynamic>.from(doc.data());
         final title = (data['title'] ?? '').toString().toLowerCase();
         final subject = data['subject'] is Map
             ? (data['subject']['name'] ?? '').toString().toLowerCase()
@@ -305,7 +305,10 @@ class _SearchResultTile extends StatelessWidget {
       default:
         icon = Icons.menu_book;
         color = AppColors.primary;
-        subtitle = 'Book • ${result['subject']?['name'] ?? ''}';
+        final subjectStr = result['subject'] is Map
+            ? (result['subject']['name'] ?? '')
+            : (result['subject']?.toString() ?? '');
+        subtitle = 'Book • $subjectStr';
         route = AppRoutes.bookDetail;
     }
 
