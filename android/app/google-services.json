@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "766355030925",
+    "project_id": "ekitab-4afc0",
+    "storage_bucket": "ekitab-4afc0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766355030925:android:cc43a286e43a8e957ff3c4",
+        "android_client_info": {
+          "package_name": "com.example.ekitab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "766355030925-plipmnj54am3gj6s8604kpb5edbmg20l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwZBRUSj_YALqkHeG22EFKLbYL0ea8IoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "766355030925-plipmnj54am3gj6s8604kpb5edbmg20l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
