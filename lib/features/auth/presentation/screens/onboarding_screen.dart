@@ -83,72 +83,76 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Stack(
         children: [
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (i) => setState(() => _currentPage = i),
-            itemCount: _pages.length,
-            itemBuilder: (_, i) => _pages[i],
-          ),
-          // Bottom controls
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
-              child: Column(
-                children: [
-                  SmoothPageIndicator(
-                    controller: _pageController,
-                    count: _pages.length,
-                    effect: ExpandingDotsEffect(
-                      activeDotColor: _pages[_currentPage].color,
-                      dotColor: _pages[_currentPage].color.withValues(alpha: 0.3),
-                      dotHeight: 8,
-                      dotWidth: 8,
-                      expansionFactor: 4,
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  Row(
+          Column(
+            children: [
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (i) => setState(() => _currentPage = i),
+                  itemCount: _pages.length,
+                  itemBuilder: (_, i) => _pages[i],
+                ),
+              ),
+              // Bottom controls
+              SafeArea(
+                top: false,
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
+                  child: Column(
                     children: [
-                      // Skip
-                      if (!isLast)
-                        TextButton(
-                          onPressed: _finish,
-                          child: Text(
-                            'Skip',
-                            style: TextStyle(color: Colors.grey[600], fontSize: 16),
-                          ),
+                      SmoothPageIndicator(
+                        controller: _pageController,
+                        count: _pages.length,
+                        effect: ExpandingDotsEffect(
+                          activeDotColor: _pages[_currentPage].color,
+                          dotColor: _pages[_currentPage].color.withValues(alpha: 0.3),
+                          dotHeight: 8,
+                          dotWidth: 8,
+                          expansionFactor: 4,
                         ),
-                      const Spacer(),
-                      // Next / Get Started
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
-                        child: ElevatedButton(
-                          onPressed: _next,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: _pages[_currentPage].color,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: isLast ? 32 : 24,
-                              vertical: 14,
+                      ),
+                      const SizedBox(height: 32),
+                      Row(
+                        children: [
+                          // Skip
+                          if (!isLast)
+                            TextButton(
+                              onPressed: _finish,
+                              child: Text(
+                                'Skip',
+                                style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                              ),
+                            ),
+                          const Spacer(),
+                          // Next / Get Started
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            child: ElevatedButton(
+                              onPressed: _next,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _pages[_currentPage].color,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: isLast ? 32 : 24,
+                                  vertical: 14,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(isLast ? 'Get Started' : 'Next'),
+                                  const SizedBox(width: 8),
+                                  Icon(isLast ? Icons.rocket_launch_rounded : Icons.arrow_forward_rounded, size: 20),
+                                ],
+                              ),
                             ),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(isLast ? 'Get Started' : 'Next'),
-                              const SizedBox(width: 8),
-                              Icon(isLast ? Icons.rocket_launch_rounded : Icons.arrow_forward_rounded, size: 20),
-                            ],
-                          ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
           // Skip to login shortcut at top
           Positioned(
@@ -196,60 +200,62 @@ class _OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 60, 24, 120),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Illustration area
-            Container(
-              width: 220,
-              height: 220,
-              decoration: BoxDecoration(
-                color: bgColor,
-                shape: BoxShape.circle,
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 60, 24, 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Illustration area
+              Container(
+                width: 220,
+                height: 220,
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(emoji, style: const TextStyle(fontSize: 90)),
+                ),
               ),
-              child: Center(
-                child: Text(emoji, style: const TextStyle(fontSize: 90)),
+              const SizedBox(height: 48),
+              // Urdu title
+              Text(
+                titleUrdu,
+                style: TextStyle(
+                  fontFamily: 'NotoNastaliqUrdu',
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                  height: 1.8,
+                ),
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.rtl,
               ),
-            ),
-            const SizedBox(height: 48),
-            // Urdu title
-            Text(
-              titleUrdu,
-              style: TextStyle(
-                fontFamily: 'NotoNastaliqUrdu',
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: color,
-                height: 1.8,
+              const SizedBox(height: 8),
+              // English title
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                  height: 1.2,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-              textDirection: TextDirection.rtl,
-            ),
-            const SizedBox(height: 8),
-            // English title
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: color,
-                height: 1.2,
+              const SizedBox(height: 16),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[600],
+                  height: 1.7,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 15,
-                color: Colors.grey[600],
-                height: 1.7,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
